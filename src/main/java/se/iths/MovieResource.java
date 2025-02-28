@@ -14,7 +14,6 @@ public class MovieResource {
     @Inject
     private MovieService movieService;
 
-
     @GET
     @Produces("text/plain")
     public String hello() {
