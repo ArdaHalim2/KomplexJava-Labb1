@@ -6,25 +6,26 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "movies")
 public class Movie {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank (message = "Title is mandatory")
+    @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @NotBlank (message = "Description is mandatory")
+    @NotBlank(message = "Description is mandatory")
     private String description;
 
-    @NotNull (message = "Release date is mandatory")
+    @NotNull(message = "Release date is mandatory")
     private LocalDate releaseDate;
 
-    @NotBlank (message = "Director is mandatory")
+    @NotBlank(message = "Director is mandatory")
     private String director;
 
     @Min(value = 1, message = "Duration must be greater than 0")
@@ -77,4 +78,29 @@ public class Movie {
     public void setDuration(int duration) {
         this.duration = duration;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "duration = " + duration + ", " +
+                "director = " + director + ", " +
+                "releaseDate = " + releaseDate + ", " +
+                "description = " + description + ", " +
+                "title = " + title + ")";
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return getId() != null && Objects.equals(getId(), movie.getId());
+    }
+
+    @Override
+    public final int hashCode() {
+        return getClass().hashCode();
+    }
+
 }
