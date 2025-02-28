@@ -5,5 +5,7 @@
              version="3.2">
     <persistence-unit name="default">
 
+        <jta-data-source>java:/postgresDB</jta-data-source>
+
     </persistence-unit>
 </persistence>
