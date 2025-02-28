@@ -6,6 +6,11 @@
     <persistence-unit name="default">
 
         <jta-data-source>java:/postgresDB</jta-data-source>
+        <properties>
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
 
     </persistence-unit>
 </persistence>
