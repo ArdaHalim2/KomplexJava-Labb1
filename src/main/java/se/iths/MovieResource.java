@@ -3,24 +3,35 @@ package se.iths;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import se.iths.entity.Movie;
+
+import java.util.List;
+import java.util.logging.Logger;
 
 @Path("/movies")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class MovieResource {
 
+    private static final Logger logger = Logger.getLogger(MovieResource.class.getName());
+
     @PersistenceContext
     private EntityManager em;
 
     @GET
-    @Produces("text/plain")
-    public String hello() {
-        return "Hello, World!";
+    public List<Movie> getAllMovies() {
+        return em.createQuery("SELECT m FROM Movie m", Movie.class).getResultList();
+    }
+
+    @POST
+    @Transactional
+    public Response createMovie(Movie movie) {
+        em.persist(movie);
+        return Response.status(Response.Status.CREATED).entity(movie).build();
     }
 
 }
