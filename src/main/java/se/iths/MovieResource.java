@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import se.iths.dto.CreateMovieDTO;
 import se.iths.entity.Movie;
 
 import java.util.List;
@@ -29,7 +30,14 @@ public class MovieResource {
 
     @POST
     @Transactional
-    public Response createMovie(Movie movie) {
+    public Response createMovie(CreateMovieDTO createMovieDTO) {
+        Movie movie = new Movie();
+        movie.setTitle(movie.getTitle());
+        movie.setDescription(movie.getDescription());
+        movie.setReleaseDate(movie.getReleaseDate());
+        movie.setDirector(movie.getDirector());
+        movie.setDuration(movie.getDuration());
+
         em.persist(movie);
         return Response.status(Response.Status.CREATED).entity(movie).build();
     }
