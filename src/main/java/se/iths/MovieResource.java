@@ -8,7 +8,9 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import se.iths.dto.CreateMovieDTO;
+import se.iths.dto.MovieDTO;
 import se.iths.entity.Movie;
+import se.iths.mapper.MovieMapper;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -23,23 +25,24 @@ public class MovieResource {
     @PersistenceContext
     private EntityManager em;
 
+    @Inject
+    private MovieMapper movieMapper;
+
     @GET
-    public List<Movie> getAllMovies() {
-        return em.createQuery("SELECT m FROM Movie m", Movie.class).getResultList();
+    public List<MovieDTO> getAllMovies() {
+        return em.createQuery("SELECT m FROM Movie m", Movie.class)
+                .getResultList()
+                .stream()
+                .map(movieMapper::toDTO)
+                .toList();
     }
 
     @POST
     @Transactional
     public Response createMovie(CreateMovieDTO createMovieDTO) {
-        Movie movie = new Movie();
-        movie.setTitle(movie.getTitle());
-        movie.setDescription(movie.getDescription());
-        movie.setReleaseDate(movie.getReleaseDate());
-        movie.setDirector(movie.getDirector());
-        movie.setDuration(movie.getDuration());
-
+        Movie movie = movieMapper.toEntity(createMovieDTO);
         em.persist(movie);
-        return Response.status(Response.Status.CREATED).entity(movie).build();
+        MovieDTO movieDTO = movieMapper.toDTO(movie);
+        return Response.status(Response.Status.CREATED).entity(movieDTO).build();
     }
-
 }
