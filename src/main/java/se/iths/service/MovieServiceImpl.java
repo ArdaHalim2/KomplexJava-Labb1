@@ -2,6 +2,7 @@ package se.iths.service;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import se.iths.dto.CreateMovieDTO;
 import se.iths.dto.MovieDTO;
 import se.iths.dto.UpdateMovieDTO;
@@ -48,7 +49,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     @Transactional
-    public MovieDTO updateMovie(Long id, UpdateMovieDTO updateMovieDTO) {
+    public MovieDTO updateMovie(Long id, @Valid UpdateMovieDTO updateMovieDTO) {
         Optional<Movie> existingMovie = movieRepository.findById(id);
         if (existingMovie.isPresent()) {
             Movie movie = existingMovie.get();

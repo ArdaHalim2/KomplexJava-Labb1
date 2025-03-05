@@ -2,6 +2,7 @@ package se.iths;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import se.iths.dto.UpdateMovieDTO;
 import se.iths.entity.Movie;
 import se.iths.repository.MovieRepo;
 import se.iths.dto.MovieDTO;
@@ -10,6 +11,7 @@ import se.iths.mapper.MovieMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class MovieService {
 
@@ -27,11 +29,11 @@ public class MovieService {
     }
 
     public List<MovieDTO> getAllMovies() {
-        return movieRepo.findAll()
-                .stream()
+        return StreamSupport.stream(movieRepo.findAll().spliterator(), false)
                 .map(movieMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
 
     public MovieDTO getMovieById(Long id) {
         return movieRepo.findById(id)
@@ -40,13 +42,13 @@ public class MovieService {
     }
 
     @Transactional
-    public MovieDTO updateMovie(Long id, CreateMovieDTO createMovieDTO) {
+    public MovieDTO updateMovie(Long id, UpdateMovieDTO updateMovieDTO) {
         Movie existingMovie = movieRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Movie not found"));
 
-        existingMovie.setTitle(createMovieDTO.title());
-        existingMovie.setDirector(createMovieDTO.director());
-        existingMovie.setDuration(createMovieDTO.duration());
+        existingMovie.setTitle(updateMovieDTO.getTitle());
+        existingMovie.setDirector(updateMovieDTO.getDirector());
+        existingMovie.setDuration(updateMovieDTO.getDuration());
 
         movieRepo.save(existingMovie);
         return movieMapper.toDTO(existingMovie);
