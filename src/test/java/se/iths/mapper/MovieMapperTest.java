@@ -1,22 +1,17 @@
 package se.iths.mapper;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.iths.dto.CreateMovieDTO;
 import se.iths.dto.MovieDTO;
 import se.iths.entity.Movie;
+
 import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MovieMapperTest {
 
-    private MovieMapper movieMapper;
-
-    @BeforeEach
-    void setUp() {
-        movieMapper = new MovieMapperImpl();
-    }
+    private MovieMapper movieMapper;  // Use the injected mapper
 
     @Test
     void testToDTO() {

@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import se.iths.dto.CreateMovieDTO;
 import se.iths.dto.MovieDTO;
+import se.iths.dto.UpdateMovieDTO;
 import se.iths.service.MovieService;
 
 @Path("/movies")
@@ -43,8 +44,7 @@ public class MovieController {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateMovie(@PathParam("id") Long id, @Valid CreateMovieDTO updateMovieDTO) {
+    public Response updateMovie(@PathParam("id") Long id, @Valid UpdateMovieDTO updateMovieDTO){
         MovieDTO updatedMovie = movieService.updateMovie(id, updateMovieDTO);
         if (updatedMovie == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
