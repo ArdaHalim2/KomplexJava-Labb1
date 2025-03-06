@@ -33,7 +33,7 @@ public class MovieResource {
         return em.createQuery("SELECT m FROM Movie m", Movie.class)
                 .getResultList()
                 .stream()
-                .map(movieMapper::toDTO)
+                .map(MovieMapper::toDTO)
                 .toList();
     }
 
