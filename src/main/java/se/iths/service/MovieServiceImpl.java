@@ -10,7 +10,6 @@ import se.iths.dto.UpdateMovieDTO;
 import se.iths.entity.Movie;
 import se.iths.mapper.MovieMapper;
 import se.iths.repository.MovieRepository;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
