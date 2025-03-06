@@ -4,10 +4,9 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import se.iths.dto.UpdateMovieDTO;
 import se.iths.entity.Movie;
-import se.iths.repository.MovieRepo;
 import se.iths.dto.MovieDTO;
 import se.iths.dto.CreateMovieDTO;
-import se.iths.mapper.MovieMapper;
+import se.iths.repository.MovieRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +15,7 @@ import java.util.stream.StreamSupport;
 public class MovieService {
 
     @Inject
-    private MovieRepo movieRepo;
+    private MovieRepository movieRepo;
 
     @Inject
     private se.iths.mapper.MovieMapper movieMapper;

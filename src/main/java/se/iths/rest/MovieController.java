@@ -1,4 +1,4 @@
-package se.iths.controller;
+package se.iths.rest;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;

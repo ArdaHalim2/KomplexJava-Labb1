@@ -1,5 +1,6 @@
 package se.iths.service;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@ApplicationScoped
 public class MovieServiceImpl implements MovieService {
 
     @Inject

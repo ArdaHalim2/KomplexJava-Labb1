@@ -1,14 +1,22 @@
 package se.iths.repository;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.data.repository.CrudRepository;
-import jakarta.data.repository.Repository;
 import se.iths.entity.Movie;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Repository
+@ApplicationScoped
 public interface MovieRepository extends CrudRepository<Movie, Long> {
+
+    List<Movie> findByDirector(String director);
+
+    List<Movie> findByTitleContaining(String title);
+
+    List<Movie> findByDurationBetween(int minDuration, int maxDuration);
+
+    boolean existsById(Long id);
 
     List<Movie> findByTitleContainingIgnoreCase(String title);
 
