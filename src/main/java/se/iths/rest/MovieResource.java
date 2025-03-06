@@ -1,6 +1,5 @@
 package se.iths.rest;
 
-import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -25,15 +24,12 @@ public class MovieResource {
     @PersistenceContext
     private EntityManager em;
 
-    @Inject
-    private MovieMapper movieMapper;
-
     @GET
     public List<MovieDTO> getAllMovies() {
         return em.createQuery("SELECT m FROM Movie m", Movie.class)
                 .getResultList()
                 .stream()
-                .map(movieMapper::toDTO)
+                .map(MovieMapper::toDTO)
                 .toList();
     }
 
@@ -44,7 +40,7 @@ public class MovieResource {
         if (movie == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Movie not found").build();
         }
-        MovieDTO movieDTO = movieMapper.toDTO(movie);
+        MovieDTO movieDTO = MovieMapper.toDTO(movie);
         return Response.ok(movieDTO).build();
     }
 
@@ -60,14 +56,13 @@ public class MovieResource {
         return Response.status(Response.Status.NO_CONTENT).build(); // 204 No Content
     }
 
-
     @POST
     @Transactional
     public Response createMovie(CreateMovieDTO createMovieDTO) {
         try {
-            Movie movie = movieMapper.toEntity(createMovieDTO);
+            Movie movie = MovieMapper.toEntity(createMovieDTO);
             em.persist(movie);
-            MovieDTO movieDTO = movieMapper.toDTO(movie);
+            MovieDTO movieDTO = MovieMapper.toDTO(movie);
             return Response.status(Response.Status.CREATED).entity(movieDTO).build();
         } catch (Exception e) {
             logger.severe("Error creating movie: " + e.getMessage());

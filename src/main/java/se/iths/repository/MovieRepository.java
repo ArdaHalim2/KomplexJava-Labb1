@@ -1,5 +1,6 @@
 package se.iths.repository;
 
+import jakarta.data.repository.Repository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.data.repository.CrudRepository;
 import se.iths.entity.Movie;
@@ -7,7 +8,7 @@ import se.iths.entity.Movie;
 import java.time.LocalDate;
 import java.util.List;
 
-@ApplicationScoped
+@Repository
 public interface MovieRepository extends CrudRepository<Movie, Long> {
 
     List<Movie> findByDirector(String director);

@@ -23,30 +23,27 @@ public class MovieServiceImpl implements MovieService {
     @Inject
     private MovieRepository movieRepository;
 
-    @Inject
-    private MovieMapper movieMapper;
-
     @Override
     public List<MovieDTO> getAllMovies() {
         Iterable<Movie> movies = (Iterable<Movie>) movieRepository.findAll();
         return StreamSupport.stream(movies.spliterator(), false)
                 .sorted(Comparator.comparing(Movie::getTitle))
-                .map(movieMapper::toDTO)
+                .map(MovieMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public MovieDTO getMovieById(Long id) {
         Optional<Movie> movie = movieRepository.findById(id);
-        return movie.map(movieMapper::toDTO).orElse(null);
+        return movie.map(MovieMapper::toDTO).orElse(null);
     }
 
     @Override
     @Transactional
     public MovieDTO createMovie(CreateMovieDTO createMovieDTO) {
-        Movie movie = movieMapper.toEntity(createMovieDTO);
+        Movie movie = MovieMapper.toEntity(createMovieDTO);
         movieRepository.save(movie);
-        return movieMapper.toDTO(movie);
+        return MovieMapper.toDTO(movie);
     }
 
     @Override
@@ -55,9 +52,9 @@ public class MovieServiceImpl implements MovieService {
         Optional<Movie> existingMovie = movieRepository.findById(id);
         if (existingMovie.isPresent()) {
             Movie movie = existingMovie.get();
-            movieMapper.updateEntityFromDTO(updateMovieDTO, movie);
+            MovieMapper.updateEntityFromDTO(updateMovieDTO, movie);
             movieRepository.save(movie);
-            return movieMapper.toDTO(movie);
+            return MovieMapper.toDTO(movie);
         }
         return null;
     }
