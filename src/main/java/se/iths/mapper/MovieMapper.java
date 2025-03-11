@@ -1,10 +1,14 @@
 package se.iths.mapper;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import org.mapstruct.Mapper;
 import se.iths.dto.CreateMovieDTO;
 import se.iths.dto.MovieDTO;
 import se.iths.dto.UpdateMovieDTO;
 import se.iths.entity.Movie;
 
+@ApplicationScoped
+@Mapper(componentModel = "cdi")
 public class MovieMapper {
 
     public static Movie toEntity(CreateMovieDTO dto) {
