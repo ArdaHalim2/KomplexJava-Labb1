@@ -13,7 +13,7 @@ public interface MovieService {
 
     MovieDTO getMovieById(Long id);
 
-    MovieDTO createMovie(CreateMovieDTO createMovieDTO);
+    MovieDTO createMovie(@Valid CreateMovieDTO createMovieDTO);
 
     MovieDTO updateMovie(Long id, @Valid UpdateMovieDTO updateMovieDTO);
 
