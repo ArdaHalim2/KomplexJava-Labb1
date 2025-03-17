@@ -1,6 +1,5 @@
 package se.iths.mapper;
 
-import jakarta.data.repository.Update;
 import org.junit.jupiter.api.Test;
 import se.iths.dto.CreateMovieDTO;
 import se.iths.dto.MovieDTO;
@@ -13,10 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MovieMapperTest {
 
+    private final MovieMapper movieMapper = new MovieMapper();  // Create an instance of MovieMapper
+
     @Test
     void testToEntityWithValidDTO() {
         CreateMovieDTO dto = new CreateMovieDTO("Inception", "movie", LocalDate.of(2010, 10, 15), "Christopher Nolan", 148);
-        Movie movie = MovieMapper.toEntity(dto);
+        Movie movie = movieMapper.toEntity(dto);  // Use the instance here
 
         assertNotNull(movie);
         assertEquals(dto.title(), movie.getTitle());
@@ -28,7 +29,7 @@ class MovieMapperTest {
 
     @Test
     void testEntityWithNullDTO() {
-        Movie movie = MovieMapper.toEntity(null);
+        Movie movie = movieMapper.toEntity(null);  // Use the instance here
         assertNull(movie);
     }
 
@@ -36,7 +37,7 @@ class MovieMapperTest {
     void testUpdatedEntityFromDTOWithValidInputs() {
         UpdateMovieDTO dto = new UpdateMovieDTO("New Title", "New Description", LocalDate.now(), "New Director", 120);
         Movie movie = new Movie();
-        MovieMapper.updateEntityFromDTO(dto, movie);
+        movieMapper.updateEntityFromDTO(dto, movie);  // Use the instance here
 
         assertEquals(dto.title(), movie.getTitle());
         assertEquals(dto.description(), movie.getDescription());
@@ -48,7 +49,7 @@ class MovieMapperTest {
     @Test
     void testUpdateEntityFromDTOWithNullDTO() {
         Movie movie = new Movie();
-        MovieMapper.updateEntityFromDTO(null, movie);
+        movieMapper.updateEntityFromDTO(null, movie);  // Use the instance here
         // No changes should be made to the movie object
         assertNull(movie.getTitle());
         assertNull(movie.getDescription());
@@ -60,7 +61,7 @@ class MovieMapperTest {
     @Test
     void testUpdateEntityFromDTOWithNullMovie() {
         UpdateMovieDTO dto = new UpdateMovieDTO("New Title", "New Description", LocalDate.now(), "New Director", 120);
-        MovieMapper.updateEntityFromDTO(dto, null);
+        movieMapper.updateEntityFromDTO(dto, null);  // Use the instance here
         // No exceptions should be thrown
     }
 
@@ -74,7 +75,7 @@ class MovieMapperTest {
         movie.setDirector("Christopher Nolan");
         movie.setDuration(148);
 
-        MovieDTO dto = MovieMapper.toDTO(movie);
+        MovieDTO dto = movieMapper.toDTO(movie);  // Use the instance here
 
         assertNotNull(dto);
         assertEquals(movie.getId(), dto.id());
@@ -87,7 +88,7 @@ class MovieMapperTest {
 
     @Test
     void testToDTOWithNullMovie() {
-        MovieDTO dto = MovieMapper.toDTO(null);
+        MovieDTO dto = movieMapper.toDTO(null);  // Use the instance here
         assertNull(dto);
     }
 }

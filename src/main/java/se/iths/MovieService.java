@@ -2,10 +2,10 @@ package se.iths;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import se.iths.dto.CreateMovieDTO;
+import se.iths.dto.MovieDTO;
 import se.iths.dto.UpdateMovieDTO;
 import se.iths.entity.Movie;
-import se.iths.dto.MovieDTO;
-import se.iths.dto.CreateMovieDTO;
 import se.iths.mapper.MovieMapper;
 import se.iths.repository.MovieRepository;
 
@@ -19,25 +19,24 @@ public class MovieService {
     private MovieRepository movieRepo;
 
     @Inject
-    private se.iths.mapper.MovieMapper movieMapper;
+    private MovieMapper movieMapper; // Use the injected instance
 
     @Transactional
     public MovieDTO createMovie(CreateMovieDTO createMovieDTO) {
-        Movie movie = MovieMapper.toEntity(createMovieDTO);
+        Movie movie = movieMapper.toEntity(createMovieDTO); // Use instance method
         movieRepo.save(movie);
-        return MovieMapper.toDTO(movie);
+        return movieMapper.toDTO(movie);
     }
 
     public List<MovieDTO> getAllMovies() {
         return StreamSupport.stream(movieRepo.findAll().spliterator(), false)
-                .map(MovieMapper::toDTO)
+                .map(movieMapper::toDTO) // Use instance method reference
                 .collect(Collectors.toList());
     }
 
-
     public MovieDTO getMovieById(Long id) {
         return movieRepo.findById(id)
-                .map(MovieMapper::toDTO)
+                .map(movie -> movieMapper.toDTO(movie)) // Use instance method reference
                 .orElseThrow(() -> new RuntimeException("Movie not found by ID"));
     }
 
@@ -51,7 +50,7 @@ public class MovieService {
         existingMovie.setDuration(updateMovieDTO.duration());
 
         movieRepo.save(existingMovie);
-        return MovieMapper.toDTO(existingMovie);
+        return movieMapper.toDTO(existingMovie); // Use instance method
     }
 
     @Transactional

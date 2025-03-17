@@ -11,6 +11,7 @@ import se.iths.dto.MovieDTO;
 import se.iths.entity.Movie;
 import se.iths.mapper.MovieMapper;
 
+import jakarta.inject.Inject;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -24,12 +25,15 @@ public class MovieResource {
     @PersistenceContext
     private EntityManager em;
 
+    @Inject
+    private MovieMapper movieMapper; // Inject MovieMapper
+
     @GET
     public List<MovieDTO> getAllMovies() {
         return em.createQuery("SELECT m FROM Movie m", Movie.class)
                 .getResultList()
                 .stream()
-                .map(MovieMapper::toDTO)
+                .map(movie -> movieMapper.toDTO(movie))  // Use instance method reference
                 .toList();
     }
 
@@ -40,7 +44,7 @@ public class MovieResource {
         if (movie == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Movie not found").build();
         }
-        MovieDTO movieDTO = MovieMapper.toDTO(movie);
+        MovieDTO movieDTO = movieMapper.toDTO(movie);  // Use instance method reference
         return Response.ok(movieDTO).build();
     }
 
@@ -60,9 +64,9 @@ public class MovieResource {
     @Transactional
     public Response createMovie(CreateMovieDTO createMovieDTO) {
         try {
-            Movie movie = MovieMapper.toEntity(createMovieDTO);
+            Movie movie = movieMapper.toEntity(createMovieDTO);  // Use instance method reference
             em.persist(movie);
-            MovieDTO movieDTO = MovieMapper.toDTO(movie);
+            MovieDTO movieDTO = movieMapper.toDTO(movie);  // Use instance method reference
             return Response.status(Response.Status.CREATED).entity(movieDTO).build();
         } catch (Exception e) {
             logger.severe("Error creating movie: " + e.getMessage());

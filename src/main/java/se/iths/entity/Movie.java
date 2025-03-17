@@ -83,24 +83,23 @@ public class Movie {
     public String toString() {
         return getClass().getSimpleName() + "(" +
                 "id = " + id + ", " +
-                "duration = " + duration + ", " +
-                "director = " + director + ", " +
-                "releaseDate = " + releaseDate + ", " +
+                "title = " + title + ", " +
                 "description = " + description + ", " +
-                "title = " + title + ")";
+                "releaseDate = " + releaseDate + ", " +
+                "director = " + director + ", " +
+                "duration = " + duration + ")";
     }
 
     @Override
-    public final boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return getId() != null && Objects.equals(getId(), movie.getId());
+        return Objects.equals(id, movie.id);
     }
 
     @Override
-    public final int hashCode() {
-        return getClass().hashCode();
+    public int hashCode() {
+        return Objects.hash(id);
     }
-
 }

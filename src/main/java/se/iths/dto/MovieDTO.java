@@ -9,4 +9,5 @@ public record MovieDTO(
     String director,
     int duration,
     LocalDate releaseDate
-) {}
+) {
+}

@@ -11,7 +11,7 @@ import se.iths.entity.Movie;
 @Mapper(componentModel = "cdi")
 public class MovieMapper {
 
-    public static Movie toEntity(CreateMovieDTO dto) {
+    public Movie toEntity(CreateMovieDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -24,7 +24,7 @@ public class MovieMapper {
         return movie;
     }
 
-    public static void updateEntityFromDTO(UpdateMovieDTO dto, Movie movie) {
+    public void updateEntityFromDTO(UpdateMovieDTO dto, Movie movie) {
         if (dto == null || movie == null) {
             return;
         }
@@ -35,7 +35,7 @@ public class MovieMapper {
         movie.setDuration(dto.duration());
     }
 
-    public static MovieDTO toDTO(Movie movie) {
+    public MovieDTO toDTO(Movie movie) {
         if (movie == null) {
             return null;
         }
